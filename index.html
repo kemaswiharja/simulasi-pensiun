@@ -55,13 +55,38 @@
   tr.on td{background:var(--accent-soft);font-weight:700}
   .note{font-size:12.5px;color:var(--muted);margin-top:16px}
   .breakdown td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .social{display:none;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+  .social.on{display:flex}
+  .like{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 14px;border:1px solid var(--line);background:#fff;font-weight:600;transition:transform .12s}
+  .like svg{width:18px;height:18px;fill:none;stroke:var(--warm);stroke-width:2;transition:fill .15s}
+  .like.liked{background:var(--warm-soft);border-color:#f0c9b6;color:var(--warm)}
+  .like.liked svg{fill:var(--warm)}
+  .like:active{transform:scale(.94)}
+  .like:disabled{opacity:.6;cursor:wait}
+  .visits{display:inline-flex;align-items:center;gap:6px}
+  .visits svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
 </style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Simulasi Uang Pensiun</h1>
-    <p>Uang Pesangon + Uang Penghargaan Masa Kerja + Uang Penggantian Hak, dihitung dari Gaji Dasar dan Tunjangan Dasar terakhir.</p>
+    <div>
+      <h1>Simulasi Uang Pensiun</h1>
+      <p>Uang Pesangon + Uang Penghargaan Masa Kerja + Uang Penggantian Hak, dihitung dari Gaji Dasar dan Tunjangan Dasar terakhir.</p>
+    </div>
+    <div class="social" id="social">
+      <button class="like" id="likeBtn" aria-pressed="false" title="Suka simulasi ini">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.1 0 3.6 1.2 5.2 3 1.6-1.8 3.1-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z"/></svg>
+        <span>Suka</span> <span id="likeCount">0</span>
+      </button>
+      <span class="visits" title="Jumlah pengunjung (per browser)">
+        <svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span id="visitCount">0</span> pengunjung
+      </span>
+    </div>
   </header>
 
   <div class="grid">
@@ -211,6 +236,43 @@ $("reset").addEventListener("click", ()=>{
   $("syarat").checked = true; hitung();
 });
 hitung();
+
+// ---- Suka & pengunjung (hanya aktif di Vercel setelah database disambungkan) ----
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { v===null ? localStorage.removeItem(k) : localStorage.setItem(k,v); } catch(e){} }
+};
+async function counter(action){
+  try {
+    const r = await fetch("/api/counter" + (action ? "?action=" + action : ""), { method: action ? "POST" : "GET" });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e){ return null; }
+}
+function showStats(s){
+  if (!s) return;
+  $("likeCount").textContent = s.likes.toLocaleString("id-ID");
+  $("visitCount").textContent = s.visitors.toLocaleString("id-ID");
+  $("social").classList.add("on");
+}
+function paintLike(){
+  const liked = store.get("sp_liked") === "1";
+  $("likeBtn").classList.toggle("liked", liked);
+  $("likeBtn").setAttribute("aria-pressed", liked);
+}
+(async () => {
+  const first = store.get("sp_visited") !== "1";
+  const s = await counter(first ? "visit" : "view");
+  if (s && first) store.set("sp_visited", "1");
+  paintLike(); showStats(s);
+})();
+$("likeBtn").addEventListener("click", async () => {
+  const btn = $("likeBtn"); btn.disabled = true;
+  const liked = store.get("sp_liked") === "1";
+  const s = await counter(liked ? "unlike" : "like");
+  if (s) { store.set("sp_liked", liked ? null : "1"); paintLike(); showStats(s); }
+  btn.disabled = false;
+});
 </script>
 </body>
 </html>
