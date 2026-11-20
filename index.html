@@ -9,53 +9,59 @@
 <style>
   :root{
     --bg:#f5f3ef; --card:#ffffff; --ink:#1d2421; --muted:#66706b; --line:#e3e0d9;
-    --accent:#0f6b55; --accent-soft:#e3f1ec; --warm:#b5532a; --warm-soft:#fbece4;
+    --accent:#0f6b55; --accent-soft:#e3f1ec; --warm:#b5532a; --warm-soft:#fbece4; --plum:#6b4a8f;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 60px}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 20px 60px}
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
   header h1{font-size:28px;margin:0 0 4px;letter-spacing:-.02em}
-  header p{margin:0;color:var(--muted);font-size:14.5px}
-  .grid{display:grid;grid-template-columns:380px 1fr;gap:20px;margin-top:24px;align-items:start}
-  @media(max-width:860px){.grid{grid-template-columns:1fr}}
+  header p{margin:0;color:var(--muted);font-size:14.5px;max-width:640px}
+  .ref{display:inline-block;margin-top:8px;font-size:12px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 10px;font-weight:600}
+  .grid{display:grid;grid-template-columns:400px 1fr;gap:20px;margin-top:24px;align-items:start}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
-  .card h2{font-size:15px;margin:0 0 14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
-  label{display:block;font-size:13.5px;font-weight:600;margin:14px 0 6px}
+  .card h2{font-size:13px;margin:22px 0 4px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+  .card h2:first-child{margin-top:0}
+  label{display:block;font-size:13.5px;font-weight:600;margin:12px 0 6px}
   .hint{font-weight:400;color:var(--muted);font-size:12.5px}
-  .money{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fbfaf8;overflow:hidden}
+  .money,.plain,select{border:1px solid var(--line);border-radius:10px;background:#fbfaf8}
+  .money{display:flex;align-items:center;overflow:hidden}
   .money span{padding:0 10px;color:var(--muted);font-size:14px;border-right:1px solid var(--line);align-self:stretch;display:flex;align-items:center;background:#f2f0eb}
-  input[type=text],input[type=number]{width:100%;border:0;background:transparent;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);outline:none}
-  .money:focus-within,.plain:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  input[type=text],input[type=number]{width:100%;border:0;background:transparent;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);outline:none;min-width:0}
+  select{width:100%;padding:10px 12px;font:inherit;font-size:14px;color:var(--ink);outline:none}
+  .money:focus-within,.plain:focus-within,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .plain{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fbfaf8}
-  .plain em{font-style:normal;color:var(--muted);font-size:13px;padding-right:12px}
-  .check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:13.5px;cursor:pointer}
-  .check input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px}
-  .sep{border:0;border-top:1px dashed var(--line);margin:20px 0 4px}
-  .btns{display:flex;gap:8px;margin-top:20px}
+  .plain{display:flex;align-items:center}
+  .plain em{font-style:normal;color:var(--muted);font-size:13px;padding-right:12px;white-space:nowrap}
+  .sep{border:0;border-top:1px dashed var(--line);margin:22px 0 0}
+  .btns{display:flex;gap:8px;margin-top:22px}
   button{font:inherit;font-size:13.5px;font-weight:600;border-radius:9px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
   button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
   button:hover{filter:brightness(.97)}
+  .reasonInfo{margin-top:8px;font-size:12.5px;color:var(--muted);background:#f7f5f1;border-radius:8px;padding:8px 10px}
   .total{background:var(--ink);color:#fff;border-radius:14px;padding:22px 24px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px}
   .total small{display:block;font-size:12.5px;opacity:.7;text-transform:uppercase;letter-spacing:.06em}
   .total .big{font-size:32px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-  .total .mk{font-size:13.5px;opacity:.8;text-align:right}
-  .comp{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-  @media(max-width:620px){.comp{grid-template-columns:1fr}}
+  .total .mk{font-size:13.5px;opacity:.85;text-align:right}
+  .comp{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}
   .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
   .c .t{font-size:12.5px;color:var(--muted);font-weight:600}
   .c .v{font-size:20px;font-weight:700;margin:4px 0 6px;font-variant-numeric:tabular-nums}
   .c .f{font-size:12.5px;color:var(--muted)}
-  .c.k1{border-top:4px solid var(--accent)} .c.k2{border-top:4px solid #3d6fb0} .c.k3{border-top:4px solid var(--warm)}
+  .c.k1{border-top:4px solid var(--accent)} .c.k2{border-top:4px solid #3d6fb0} .c.k3{border-top:4px solid var(--warm)} .c.k4{border-top:4px solid var(--plum)}
+  .c.off{opacity:.55}
   details{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 16px}
   summary{cursor:pointer;font-weight:600;font-size:14px;padding:12px 0}
   table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:14px}
-  th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+  th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
   th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
   tr.on td{background:var(--accent-soft);font-weight:700}
   .note{font-size:12.5px;color:var(--muted);margin-top:16px}
-  .breakdown td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-  header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .breakdown td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .breakdown tr.sub td{font-weight:700;background:#faf9f6}
+  .tables{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:620px){.tables{grid-template-columns:1fr}}
   .social{display:none;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
   .social.on{display:flex}
   .like{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 14px;border:1px solid var(--line);background:#fff;font-weight:600;transition:transform .12s}
@@ -75,7 +81,8 @@
   <header>
     <div>
       <h1>Simulasi Uang Pensiun</h1>
-      <p>Uang Pesangon + Uang Penghargaan Masa Kerja + Uang Penggantian Hak, dihitung dari Gaji Dasar dan Tunjangan Dasar terakhir.</p>
+      <p>Uang Pesangon + Uang Penghargaan Masa Kerja + Uang Penggantian Hak (+ Uang Pisah bila berlaku), sesuai alasan putusnya hubungan kerja.</p>
+      <span class="ref">Peraturan Dasar Kepegawaian YPT 2024 · PDP.1363/00/DGS-HK01/YPT/2024 · Pasal 36</span>
     </div>
     <div class="social" id="social">
       <button class="like" id="likeBtn" aria-pressed="false" title="Suka simulasi ini">
@@ -92,13 +99,17 @@
   <div class="grid">
     <!-- INPUT -->
     <div class="card">
-      <h2>Data Pegawai</h2>
+      <h2>Alasan putusnya hubungan kerja</h2>
+      <select id="alasan" aria-label="Alasan putusnya hubungan kerja"></select>
+      <div class="reasonInfo" id="reasonInfo"></div>
 
-      <label for="gd">Gaji Dasar terakhir</label>
+      <h2 style="margin-top:22px">Upah (Pasal 36 ayat 2)</h2>
+      <label for="gd">Gaji Dasar</label>
       <div class="money"><span>Rp</span><input id="gd" type="text" inputmode="numeric" placeholder="0"></div>
-
-      <label for="td">Tunjangan Dasar terakhir</label>
+      <label for="td">Tunjangan Dasar</label>
       <div class="money"><span>Rp</span><input id="td" type="text" inputmode="numeric" placeholder="0"></div>
+      <label for="ip">Insentif Premium</label>
+      <div class="money"><span>Rp</span><input id="ip" type="text" inputmode="numeric" placeholder="0"></div>
 
       <label>Masa Kerja</label>
       <div class="row2">
@@ -107,15 +118,20 @@
       </div>
 
       <hr class="sep">
-      <label style="margin-bottom:0">Uang Penggantian Hak</label>
-      <label class="check"><input id="syarat" type="checkbox" checked>
-        <span>Memenuhi syarat penggantian perumahan, pengobatan &amp; perawatan (15% × UPMK)</span></label>
-
-      <label for="belum">Cuti tahunan / THR / insentif yang belum dibayarkan <span class="hint">(opsional)</span></label>
-      <div class="money"><span>Rp</span><input id="belum" type="text" inputmode="numeric" placeholder="0"></div>
-
-      <label for="lain">Hal lain yang ditetapkan Yayasan <span class="hint">(opsional)</span></label>
-      <div class="money"><span>Rp</span><input id="lain" type="text" inputmode="numeric" placeholder="0"></div>
+      <h2 style="margin-top:18px">Penggantian Hak (ayat 5–6)</h2>
+      <p class="hint" style="margin:0">a. Cuti tahunan yang belum diambil dan belum gugur</p>
+      <div class="row2">
+        <div><label for="jatah">Jatah cuti tahunan</label>
+          <div class="plain"><input id="jatah" type="number" min="0" value="12"><em>hari</em></div></div>
+        <div><label for="bulanCuti">Bulan bekerja di periode cuti</label>
+          <div class="plain"><input id="bulanCuti" type="number" min="0" max="12" placeholder="0"><em>bulan</em></div></div>
+        <div><label for="diambil">Cuti telah diambil</label>
+          <div class="plain"><input id="diambil" type="number" min="0" placeholder="0"><em>hari</em></div></div>
+        <div><label for="hk">Hari kerja sebulan</label>
+          <div class="plain"><input id="hk" type="number" min="1" value="22"><em>hari</em></div></div>
+      </div>
+      <label for="ongkos">b. Ongkos pulang pegawai &amp; keluarga <span class="hint">(opsional)</span></label>
+      <div class="money"><span>Rp</span><input id="ongkos" type="text" inputmode="numeric" placeholder="0"></div>
 
       <div class="btns">
         <button class="primary" id="contoh">Isi contoh</button>
@@ -126,14 +142,15 @@
     <!-- OUTPUT -->
     <div>
       <div class="total">
-        <div><small>Total uang pensiun</small><div class="big" id="total">Rp 0</div></div>
-        <div class="mk" id="mkText">Masa kerja: –</div>
+        <div><small>Total hak pegawai</small><div class="big" id="total">Rp 0</div></div>
+        <div class="mk" id="mkText">–</div>
       </div>
 
       <div class="comp">
-        <div class="c k1"><div class="t">(1) Uang Pesangon</div><div class="v" id="vPes">Rp 0</div><div class="f" id="fPes">–</div></div>
-        <div class="c k2"><div class="t">(2) Uang Penghargaan Masa Kerja</div><div class="v" id="vUpmk">Rp 0</div><div class="f" id="fUpmk">–</div></div>
-        <div class="c k3"><div class="t">(3) Uang Penggantian Hak</div><div class="v" id="vHak">Rp 0</div><div class="f" id="fHak">–</div></div>
+        <div class="c k1" id="cPes"><div class="t">Uang Pesangon</div><div class="v" id="vPes">Rp 0</div><div class="f" id="fPes">–</div></div>
+        <div class="c k2" id="cUpmk"><div class="t">Uang Penghargaan Masa Kerja</div><div class="v" id="vUpmk">Rp 0</div><div class="f" id="fUpmk">–</div></div>
+        <div class="c k3"><div class="t">Uang Penggantian Hak</div><div class="v" id="vHak">Rp 0</div><div class="f" id="fHak">–</div></div>
+        <div class="c k4" id="cPisah"><div class="t">Uang Pisah</div><div class="v" id="vPisah">Rp 0</div><div class="f" id="fPisah">–</div></div>
       </div>
 
       <details open>
@@ -142,98 +159,153 @@
       </details>
 
       <details>
-        <summary>Tabel formulasi (baris aktif disorot)</summary>
-        <div class="row2" style="gap:16px">
+        <summary>Tabel pesangon &amp; UPMK (ayat 3–4, baris aktif disorot)</summary>
+        <div class="tables">
           <table><thead><tr><th>Masa Kerja (X)</th><th>Pesangon</th></tr></thead><tbody id="tPes"></tbody></table>
           <table><thead><tr><th>Masa Kerja (X)</th><th>UPMK</th></tr></thead><tbody id="tUpmk"></tbody></table>
         </div>
       </details>
 
-      <p class="note">Simulasi ini hanya perkiraan berdasarkan formulasi yang tercantum (pengali × (Gaji Dasar + Tunjangan Dasar)). Besaran resmi mengikuti ketetapan Yayasan.</p>
+      <details>
+        <summary>Tabel hak berdasarkan alasan PHK (ayat 7)</summary>
+        <table><thead><tr><th>No</th><th>Alasan</th><th>Pesangon</th><th>UPMK</th><th>Peng. Hak</th><th>Pisah</th></tr></thead><tbody id="tAlasan"></tbody></table>
+      </details>
+
+      <p class="note">Simulasi ini hanya perkiraan. Upah = Gaji Dasar + Tunjangan Dasar + Insentif Premium (ayat 2). Uang penggantian cuti dihitung dari Upah yang sama. Uang Pisah = 1 × Upah bulan terakhir (ayat 8). Besaran resmi mengikuti ketetapan Yayasan.</p>
     </div>
   </div>
 </div>
 
 <script>
-const PES = [ // [batasAtas (tahun, inklusif), pengali, label]
-  [1,1,"X ≤ 1 tahun"],[2,2,"1 < X ≤ 2 tahun"],[3,3,"2 < X ≤ 3 tahun"],[4,4,"3 < X ≤ 4 tahun"],
-  [5,5,"4 < X ≤ 5 tahun"],[6,6,"5 < X ≤ 6 tahun"],[7,7,"6 < X ≤ 7 tahun"],[8,8,"7 < X ≤ 8 tahun"],
-  [9,9,"8 < X ≤ 9 tahun"],[Infinity,10,"X > 9 tahun"]
+// Pasal 36 ayat (3): batas bawah inklusif, batas atas eksklusif
+const PES = [
+  [1,1,"X < 1 tahun"],[2,2,"1 ≤ X < 2 tahun"],[3,3,"2 ≤ X < 3 tahun"],[4,4,"3 ≤ X < 4 tahun"],
+  [5,5,"4 ≤ X < 5 tahun"],[6,6,"5 ≤ X < 6 tahun"],[7,7,"6 ≤ X < 7 tahun"],[8,8,"7 ≤ X < 8 tahun"],
+  [9,9,"8 ≤ X < 9 tahun"],[Infinity,10,"X ≥ 9 tahun"]
 ];
+// Pasal 36 ayat (4)
 const UPMK = [
-  [1,0,"X ≤ 1 tahun"],[3,1,"1 < X ≤ 3 tahun"],[6,2,"3 < X ≤ 6 tahun"],[9,3,"6 < X ≤ 9 tahun"],
-  [12,4,"9 < X ≤ 12 tahun"],[15,5,"12 < X ≤ 15 tahun"],[18,6,"15 < X ≤ 18 tahun"],
-  [21,7,"18 < X ≤ 21 tahun"],[24,8,"21 < X ≤ 24 tahun"],[Infinity,10,"X > 24 tahun"]
+  [1,0,"X < 1 tahun"],[3,1,"1 ≤ X < 3 tahun"],[6,2,"3 ≤ X < 6 tahun"],[9,3,"6 ≤ X < 9 tahun"],
+  [12,4,"9 ≤ X < 12 tahun"],[15,5,"12 ≤ X < 15 tahun"],[18,6,"15 ≤ X < 18 tahun"],
+  [21,7,"18 ≤ X < 21 tahun"],[24,8,"21 ≤ X < 24 tahun"],[Infinity,10,"X ≥ 24 tahun"]
 ];
+// Pasal 36 ayat (7): [no, alasan, faktor pesangon, faktor UPMK, uang pisah]
+const ALASAN = [
+  ["1","Penggabungan, peleburan, pengambilalihan, atau pemisahan Yayasan",1,1,false],
+  ["2","Efisiensi (dengan/tanpa penutupan) karena Yayasan merugi",0.5,1,false],
+  ["3","Yayasan tutup karena merugi terus-menerus 2 tahun",0.5,1,false],
+  ["4a","Keadaan memaksa (force majeure) yang mengakibatkan Yayasan tutup",0.5,1,false],
+  ["4b","Keadaan memaksa (force majeure) yang tidak mengakibatkan Yayasan tutup",0.75,1,false],
+  ["5","Penundaan kewajiban pembayaran utang (0,5×)",0.5,1,false],
+  ["5","Penundaan kewajiban pembayaran utang (1×)",1,1,false],
+  ["6","Yayasan pailit",0.5,1,false],
+  ["7","Permohonan PHK oleh pegawai karena perbuatan Yayasan (Pasal 35 ayat 2 huruf g)",1,1,false],
+  ["8","Putusan lembaga PHI: Yayasan tidak melakukan perbuatan huruf g, lalu Yayasan mem-PHK",0,0,true],
+  ["9","Mengundurkan diri atas kemauan sendiri",0,0,true],
+  ["10","Mangkir 5 hari kerja berturut-turut atau lebih",0,0,true],
+  ["11","Pelanggaran PK/Peraturan Yayasan/PKB setelah SP 1, 2, dan 3",0.5,1,false],
+  ["12a","Ditahan/diputus bersalah atas tindak pidana yang merugikan Yayasan",0,0,true],
+  ["12b","Ditahan/diputus bersalah atas tindak pidana yang tidak merugikan Yayasan",0,1,false],
+  ["13","Sakit berkepanjangan/cacat akibat kecelakaan kerja > 12 bulan",2,1,false],
+  ["14","Memasuki usia pensiun",2,1,false],
+  ["15","Meninggal dunia",2,1,false],
+  ["16","Pelanggaran bersifat mendesak",0,0,true],
+];
+const DEFAULT_ALASAN = 16; // Memasuki usia pensiun
+
 const $ = id => document.getElementById(id);
-const rp = n => "Rp " + Math.round(n).toLocaleString("id-ID");
+const rp = n => "Rp " + Math.floor(n).toLocaleString("id-ID");
 const num = el => Number((el.value || "").replace(/\D/g, "")) || 0;
-const pick = (tbl, x) => tbl.findIndex(r => x <= r[0] + 1e-9);
+const val = (el, d=0) => { const v = parseFloat(el.value); return isNaN(v) ? d : v; };
+const fx = f => (f === 0 ? "–" : String(f).replace(".", ",") + "×");
+const pick = (tbl, x) => tbl.findIndex(r => x < r[0] - 1e-9);
 
-function fmtInput(el){
-  const v = num(el);
-  el.value = v ? v.toLocaleString("id-ID") : "";
-}
+$("alasan").innerHTML = ALASAN.map((a,i)=>`<option value="${i}">${a[0]}. ${a[1]}</option>`).join("");
+$("alasan").value = DEFAULT_ALASAN;
+$("tAlasan").innerHTML = ALASAN.map((a,i)=>`<tr data-i="${i}"><td>${a[0]}</td><td>${a[1]}</td><td>${fx(a[2])}</td><td>${fx(a[3])}</td><td>✓</td><td>${a[4]?"✓":"–"}</td></tr>`).join("");
 
-function renderTable(id, tbl, active, skipZero){
-  $(id).innerHTML = tbl.map((r,i)=> (skipZero && r[1]===0) ? "" :
-    `<tr class="${i===active?'on':''}"><td>${r[2]}</td><td>${r[1]} ×</td></tr>`).join("");
+function fmtInput(el){ const v = num(el); el.value = v ? v.toLocaleString("id-ID") : ""; }
+function renderTable(id, tbl, active){
+  $(id).innerHTML = tbl.map((r,i)=> r[1]===0 ? "" : `<tr class="${i===active?'on':''}"><td>${r[2]}</td><td>${r[1]} × Upah</td></tr>`).join("");
 }
 
 function hitung(){
-  const gd = num($("gd")), td = num($("td"));
-  const th = Math.max(0, Number($("th").value)||0);
-  const bl = Math.min(11, Math.max(0, Number($("bl").value)||0));
+  const ai = Number($("alasan").value), A = ALASAN[ai];
+  const [, , fP, fU, pisahOn] = A;
+  const gd = num($("gd")), td = num($("td")), ip = num($("ip"));
+  const upah = gd + td + ip;
+  const th = Math.max(0, val($("th"))), bl = Math.min(11, Math.max(0, val($("bl"))));
   const X = th + bl/12;
-  const dasar = gd + td;
 
   const iP = pick(PES, X), mP = PES[iP][1];
   const iU = pick(UPMK, X), mU = UPMK[iU][1];
-  const pes = mP * dasar;
-  const upmk = mU * dasar;
-  const p15 = $("syarat").checked ? 0.15 * upmk : 0;
-  const belum = num($("belum")), lain = num($("lain"));
-  const hak = p15 + belum + lain;
-  const total = pes + upmk + hak;
+  const pes = fP * mP * upah;
+  const upmk = fU * mU * upah;
 
+  // Penggantian hak: cuti (ayat 6) + ongkos pulang
+  const jatah = Math.max(0, val($("jatah"), 12));
+  const bulanCuti = Math.min(12, Math.max(0, val($("bulanCuti"))));
+  const diambil = Math.max(0, val($("diambil")));
+  const hk = Math.max(1, val($("hk"), 22));
+  const hakProp = bulanCuti / 12 * jatah;
+  const sisa = Math.max(0, hakProp - diambil);
+  const uCuti = Math.floor(sisa / hk * upah);
+  const ongkos = num($("ongkos"));
+  const hak = uCuti + ongkos;
+
+  const pisah = pisahOn ? upah : 0;
+  const total = pes + upmk + hak + pisah;
+
+  const r1 = n => (Math.round(n*100)/100).toLocaleString("id-ID");
+  $("reasonInfo").innerHTML = `Ayat 7 no. ${A[0]}: Pesangon <b>${fx(fP)}</b>, UPMK <b>${fx(fU)}</b>, Penggantian Hak <b>✓</b>, Uang Pisah <b>${pisahOn?"✓":"–"}</b>`;
   $("total").textContent = rp(total);
-  $("mkText").textContent = `Masa kerja: ${th} tahun ${bl} bulan · Dasar: ${rp(dasar)}`;
+  $("mkText").innerHTML = `Masa kerja ${th} tahun ${bl} bulan<br>Upah ${rp(upah)}`;
+
   $("vPes").textContent = rp(pes);
-  $("fPes").textContent = `${mP} × ${rp(dasar)}  (${PES[iP][2]})`;
+  $("fPes").textContent = fP ? `${fx(fP)} × ${mP} × Upah  (${PES[iP][2]})` : "Tidak berhak (alasan PHK)";
+  $("cPes").classList.toggle("off", !fP);
   $("vUpmk").textContent = rp(upmk);
-  $("fUpmk").textContent = mU ? `${mU} × ${rp(dasar)}  (${UPMK[iU][2]})` : "Belum berhak (masa kerja ≤ 1 tahun)";
+  $("fUpmk").textContent = !fU ? "Tidak berhak (alasan PHK)" : (mU ? `${fx(fU)} × ${mU} × Upah  (${UPMK[iU][2]})` : "Belum berhak (masa kerja < 1 tahun)");
+  $("cUpmk").classList.toggle("off", !fU || !mU);
   $("vHak").textContent = rp(hak);
-  $("fHak").textContent = $("syarat").checked ? `15% × UPMK${belum||lain ? " + komponen lain" : ""}` : (belum||lain ? "Komponen lain saja" : "Tidak memenuhi syarat 15%");
+  $("fHak").textContent = `Cuti ${r1(sisa)} hari${ongkos ? " + ongkos pulang" : ""}`;
+  $("vPisah").textContent = rp(pisah);
+  $("fPisah").textContent = pisahOn ? "1 × Upah bulan terakhir" : "Tidak berlaku untuk alasan ini";
+  $("cPisah").classList.toggle("off", !pisahOn);
 
   const rows = [
-    ["Gaji Dasar + Tunjangan Dasar", `${rp(gd)} + ${rp(td)}`, rp(dasar)],
-    ["(1) Uang Pesangon", `${mP} × ${rp(dasar)}`, rp(pes)],
-    ["(2) Uang Penghargaan Masa Kerja", `${mU} × ${rp(dasar)}`, rp(upmk)],
-    ["(3a) Perumahan, pengobatan & perawatan", $("syarat").checked ? `15% × ${rp(upmk)}` : "tidak memenuhi syarat", rp(p15)],
-    ["(3b) Cuti/THR/insentif belum dibayar", "", rp(belum)],
-    ["(3c) Hal lain dari Yayasan", "", rp(lain)],
+    ["Upah = Gaji Dasar + Tunjangan Dasar + Insentif Premium", `${rp(gd)} + ${rp(td)} + ${rp(ip)}`, rp(upah), ""],
+    ["Uang Pesangon", fP ? `${fx(fP)} × ${mP} × ${rp(upah)}` : "tidak berhak", rp(pes), "sub"],
+    ["Uang Penghargaan Masa Kerja", fU ? `${fx(fU)} × ${mU} × ${rp(upah)}` : "tidak berhak", rp(upmk), "sub"],
+    ["Hak cuti proporsional", `(${bulanCuti}/12) × ${jatah} hari`, `${r1(hakProp)} hari`, ""],
+    ["Sisa cuti belum gugur", `${r1(hakProp)} − ${r1(diambil)} hari`, `${r1(sisa)} hari`, ""],
+    ["a. Uang penggantian cuti", `(${r1(sisa)} / ${hk}) × ${rp(upah)}`, rp(uCuti), ""],
+    ["b. Ongkos pulang", "", rp(ongkos), ""],
+    ["Uang Penggantian Hak", "a + b", rp(hak), "sub"],
+    ["Uang Pisah", pisahOn ? `1 × ${rp(upah)}` : "tidak berlaku", rp(pisah), "sub"],
   ];
-  $("rincian").innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td style="color:var(--muted)">${r[1]}</td><td>${r[2]}</td></tr>`).join("")
-    + `<tr style="font-weight:700"><td>Total</td><td></td><td>${rp(total)}</td></tr>`;
+  $("rincian").innerHTML = rows.map(r=>`<tr class="${r[3]}"><td>${r[0]}</td><td style="color:var(--muted)">${r[1]}</td><td>${r[2]}</td></tr>`).join("")
+    + `<tr style="font-weight:700;font-size:14px"><td>Total</td><td></td><td>${rp(total)}</td></tr>`;
 
-  renderTable("tPes", PES, iP, false);
-  renderTable("tUpmk", UPMK, iU, true);
+  renderTable("tPes", PES, iP);
+  renderTable("tUpmk", UPMK, iU);
+  document.querySelectorAll("#tAlasan tr").forEach(tr => tr.classList.toggle("on", Number(tr.dataset.i) === ai));
 }
 
-["gd","td","belum","lain"].forEach(id=>{
-  $(id).addEventListener("input", e=>{ fmtInput(e.target); hitung(); });
-});
-["th","bl","syarat"].forEach(id=> $(id).addEventListener("input", hitung));
-$("syarat").addEventListener("change", hitung);
+["gd","td","ip","ongkos"].forEach(id=> $(id).addEventListener("input", e=>{ fmtInput(e.target); hitung(); }));
+["th","bl","jatah","bulanCuti","diambil","hk"].forEach(id=> $(id).addEventListener("input", hitung));
+$("alasan").addEventListener("change", hitung);
 
 $("contoh").addEventListener("click", ()=>{
-  $("gd").value = "1.000.000"; $("td").value = "6.000.000";
-  $("th").value = 25; $("bl").value = 6; $("syarat").checked = true;
-  $("belum").value = ""; $("lain").value = ""; hitung();
+  $("alasan").value = DEFAULT_ALASAN;
+  $("gd").value = "1.000.000"; $("td").value = "6.000.000"; $("ip").value = "";
+  $("th").value = 25; $("bl").value = 6;
+  $("jatah").value = 12; $("bulanCuti").value = 8; $("diambil").value = 3; $("hk").value = 22;
+  $("ongkos").value = ""; hitung();
 });
 $("reset").addEventListener("click", ()=>{
-  ["gd","td","th","bl","belum","lain"].forEach(id=> $(id).value = "");
-  $("syarat").checked = true; hitung();
+  ["gd","td","ip","th","bl","bulanCuti","diambil","ongkos"].forEach(id=> $(id).value = "");
+  $("jatah").value = 12; $("hk").value = 22; $("alasan").value = DEFAULT_ALASAN; hitung();
 });
 hitung();
 
